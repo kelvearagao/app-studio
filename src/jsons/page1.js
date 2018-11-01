@@ -20,7 +20,7 @@ export default {
     'nav': {
       type: 'ul',
       style: {
-        'backgroundColor': 'red',
+        'backgroundColor': 'gray',
       },
       childs: [
         'link1',
@@ -31,21 +31,21 @@ export default {
     'link1': {
       type: 'li',
       style: {
-        'backgroundColor': 'yellow'
+        'backgroundColor': 'gray'
       },
       childs: ['Home']
     },
     'link2': {
       type: 'li',
       style: {
-        'backgroundColor': 'green'
+        'backgroundColor': 'gray'
       },
       childs: ['Contact']
     },
     'link3': {
       type: 'li',
       style: {
-        'backgroundColor': 'pink'
+        'backgroundColor': 'gray'
       },
       childs: ['Map']
     },
@@ -53,18 +53,18 @@ export default {
       type: 'div',
       style: {
         'height': '300px',
-        'backgroundColor': 'blue' 
+        'backgroundColor': 'gray'
       }
     },
     'footer': {
       type: 'div',
       style: {
         'height': '250px',
-        'backgroundColor': 'black',
+        'backgroundColor': 'gray',
         'color': 'white'
       },
       childs: [
-        'Todos os direitos reservados' 
+        'Todos os direitos reservados'
       ]
     }
   }

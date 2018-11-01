@@ -30,3 +30,9 @@
     transform: rotate(360deg);
   }
 }
+
+.view-box {
+  position: relative;
+  float: left;
+  width: 40%;
+}
