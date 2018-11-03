@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom'
 import logo from './logo.svg'
 import './App.css'
 import json from './jsons/page1'
+import PropForm from './components/PropForm'
 
 class App extends Component {
   state = {
+    newElementName: '',
     selectedElement: '',
     elementJson: ''
   }
@@ -15,6 +17,9 @@ class App extends Component {
 
     this.handleSelectedElChange = this.handleSelectedElChange.bind(this)
     this.handleSelectedElJsonChange = this.handleSelectedElJsonChange.bind(this)
+    this.handleAddElementClick = this.handleAddElementClick.bind(this)
+    this.handleNewElementName = this.handleNewElementName.bind(this)
+    this.handlePropFormChange = this.handlePropFormChange.bind(this)
   }
 
   getJson() {
@@ -23,6 +28,30 @@ class App extends Component {
     if (!item) localStorage.setItem('page1', JSON.stringify(json))
 
     return JSON.parse(item)
+  }
+
+  handleAddElementClick() {
+    this.addJsonKey(this.state.newElementName)
+    this.setState({
+      newElementName: ''
+    })
+  }
+
+  handleNewElementName(event) {
+    this.setState({
+      newElementName: event.target.value
+    })
+  }
+
+  addJsonKey(key) {
+    if(!key) {
+      return
+    }
+
+    const json = this.getJson();
+    json[key] = {type: 'div'};
+
+    localStorage.setItem('page1', JSON.stringify(json));
   }
 
   addElements(items) {
@@ -55,9 +84,20 @@ class App extends Component {
 
       const item = items[key]
 
+      if(item.css) {
+        let styles = ""
+        Object.entries(item.css).map(([key, value]) => {
+          styles += key + JSON.stringify(value).replace(/"/g, "").replace(/,/g,";")+" "
+        })
+        listEl.push(React.createElement('style', null, styles));
+      }
+
       const childEls = this.createChilds(items, item.childs)
 
-      const el = React.createElement(item.type, { style: item.style }, childEls)
+      const el = React.createElement(item.type, { 
+        style: item.style, 
+        className: item.className,
+        type: item.inputType, value: item.value, placeholder: item.placeholder }, childEls.length ? childEls : null)
 
       listEl.push(el)
     }
@@ -68,23 +108,32 @@ class App extends Component {
   handleSelectedElChange(event) {
     this.setState({
       selectedElement: event.target.value,
-      elementJson: JSON.stringify(this.getJson()[event.target.value])
+      elementJson: JSON.stringify(this.getJson()[event.target.value], null, "\t")
     })
   }
 
-  handleSelectedElJsonChange(event) {
+  updateElJson(value) {
     const json = this.getJson()
 
     try {
-      json[this.state.selectedElement] = JSON.parse(event.target.value)
+      json[this.state.selectedElement] = JSON.parse(value)
       localStorage.setItem('page1', JSON.stringify(json))
     } catch (e) {
       console.log('erro ao editar', e)
     }
 
     this.setState({
-      elementJson: event.target.value
+      elementJson: value,
     })
+  }
+
+  handleSelectedElJsonChange(event) {
+    this.updateElJson(event.target.value)
+  }
+
+  handlePropFormChange(event) {
+    //console.log(event)
+    this.updateElJson(event.elJson)
   }
 
   componentDidMount() {}
@@ -97,29 +146,38 @@ class App extends Component {
     return (
       <div style={{ height: '100%', postion: 'realtive' }}>
         <div
-          className="view-box"
+          className="canvas view-box box-setup"
           id="view"
-          style={{ height: '100%', borderRight: '1px solid red' }}
+          style={{ height: '100%'}}
         >
           {this.addElements(this.getJson())}
         </div>
         <div />
-        <div className="view-box">
-          <label>
-            Elementos{' '}
-            <select
-              value={this.state.selectedElement}
-              onChange={this.handleSelectedElChange}
-            >
-              {result}
-            </select>
-          </label>
+        <div className="view-box box-setup">
+          <input type="text" value={this.state.newElementName} onChange={this.handleNewElementName} /> 
+          <input type="button" value="Add" onClick={this.handleAddElementClick}/>
+          <br />
+
+          <select
+            value={this.state.selectedElement}
+            onChange={this.handleSelectedElChange}
+          >
+            <option>Select Element</option>
+            {result}
+          </select>
           <br />
           <br />
+
           <textarea
+            className="json-textarea"
             value={this.state.elementJson}
             onChange={this.handleSelectedElJsonChange}
           />
+
+          <PropForm key={this.state.selectedElement} 
+            elName={this.state.selectedElement} 
+            elJson={this.state.elementJson} 
+            onChange={this.handlePropFormChange}/>
         </div>
       </div>
     )
