@@ -49,6 +49,11 @@
 }
 
 .json-textarea {
-  width: 50%;
+  width: 100%;
   height: 300px;
+}
+
+.prop-input {
+  margin-left: 10px;
+  width: 129px;
 }

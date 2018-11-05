@@ -21,9 +21,47 @@ export default class PropForm extends Component {
             {name: "backgroundColor", value: ""},
             {name: "height", value: ""},
             {name: "width", value: ""},
+            // border
             {name: "border", value: ""},
+            {name: "borderStyle", value: "", type: "select", options: [
+                {value: "dotted"},
+                {value: "dashed"},
+                {value: "solid"},
+                {value: "double"},
+                {value: "groove"},
+                {value: "ridge"},
+                {value: "inset"},
+                {value: "outset"},
+                {value: "none"},
+                {value: "hidden"},
+            ]},
+            {name: "borderWidth", value: ""},
+            {name: "borderColor", value: ""},
+            {name: "borderRadius", value: ""},
+            //
             {name: "padding", value: ""},
             {name: "margin", value: ""},
+            {name: "position", value: ""},
+            {name: "float", value: ""},
+            {name: "top", value: ""},
+            {name: "bottom", value: ""},
+            {name: "right", value: ""},
+            {name: "left", value: ""},
+            // text
+            {name: "color", value: ""},
+            {name: "direction", value: ""},
+            {name: "letterSpacing", value: ""},
+            {name: "lineHeight", value: ""},
+            {name: "textAlign", value: ""},
+            {name: "textDecoration", value: ""},
+            {name: "textIndent", value: ""},
+            {name: "textShadow", value: ""},
+            {name: "textTransform", value: ""},
+            {name: "textOverflow", value: ""},
+            {name: "unicodeBid", value: ""},
+            {name: "verticalAlign", value: ""},
+            {name: "whiteSpace", value: ""},
+            {name: "worldSpacing", value: ""},
         ]
     }
 
@@ -82,12 +120,37 @@ export default class PropForm extends Component {
         }
     }
 
+    dynamicInput(item) {
+        if(item.type === 'select') {
+            return <div>
+                <lable>
+                    {item.name}
+                    <select className="prop-input"
+                    type="text" name={item.name} value={item.value}
+                    onChange={this.handleInputChange}> 
+                        <option></option>
+                        {item.options.map((option, key) => {
+                            return <option key={key} value={option.value}>{option.value}</option>
+                        })}
+                    </select>
+                </lable>
+            </div>
+        }
+
+        return <div>
+            <lable>
+                {item.name}
+                <input className="prop-input"
+                type="text" name={item.name} value={item.value}
+                onChange={this.handleInputChange}/>
+            </lable>
+        </div>
+    }
+
     // deve ser puro, nao acessar o browser
     render() {
         const inputs = this.state.props.map((item) => {
-            return <div><lable>{item.name}
-                <input type="text" name={item.name} value={item.value}
-                 onChange={this.handleInputChange}/></lable></div>
+            return this.dynamicInput(item)
         })
 
         return <div>
@@ -96,3 +159,8 @@ export default class PropForm extends Component {
     }
 
 }
+/*
+<div><lable>{item.name}
+                <input className="prop-input"
+                 type="text" name={item.name} value={item.value}
+                 onChange={this.handleInputChange}/></lable></div>*/

@@ -146,13 +146,14 @@ class App extends Component {
     return (
       <div style={{ height: '100%', postion: 'realtive' }}>
         <div
-          className="canvas view-box box-setup"
+          className="canvas view-box"
           id="view"
           style={{ height: '100%'}}
         >
           {this.addElements(this.getJson())}
         </div>
         <div />
+
         <div className="view-box box-setup">
           <input type="text" value={this.state.newElementName} onChange={this.handleNewElementName} /> 
           <input type="button" value="Add" onClick={this.handleAddElementClick}/>
@@ -165,19 +166,28 @@ class App extends Component {
             <option>Select Element</option>
             {result}
           </select>
+          <input type="button" value="Remove"/>
           <br />
           <br />
+          
+          <table width="100%" border="0">
+            <tr>
+              <td width="50%">
+                <textarea
+                  className="json-textarea"
+                  value={this.state.elementJson}
+                  onChange={this.handleSelectedElJsonChange}
+                />
+              </td>
+              <td width="50%" align="right" valign="top">
+                <PropForm key={this.state.selectedElement} 
+                  elName={this.state.selectedElement} 
+                  elJson={this.state.elementJson} 
+                  onChange={this.handlePropFormChange}/>
+              </td>
+            </tr>
+          </table>
 
-          <textarea
-            className="json-textarea"
-            value={this.state.elementJson}
-            onChange={this.handleSelectedElJsonChange}
-          />
-
-          <PropForm key={this.state.selectedElement} 
-            elName={this.state.selectedElement} 
-            elJson={this.state.elementJson} 
-            onChange={this.handlePropFormChange}/>
         </div>
       </div>
     )
