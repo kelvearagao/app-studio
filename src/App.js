@@ -4,6 +4,7 @@ import logo from './logo.svg'
 import './App.css'
 import json from './jsons/page1'
 import PropForm from './components/PropForm'
+import Tree from './components/Tree'
 
 class App extends Component {
   state = {
@@ -172,12 +173,15 @@ class App extends Component {
           
           <table width="100%" border="0">
             <tr>
-              <td width="50%">
+              <td width="50%" valign="top">
+                <Tree elements={this.getJson()} handleElClick={this.handleSelectedElChange}/>
+                {/*
                 <textarea
                   className="json-textarea"
                   value={this.state.elementJson}
                   onChange={this.handleSelectedElJsonChange}
                 />
+                */}
               </td>
               <td width="50%" align="right" valign="top">
                 <PropForm key={this.state.selectedElement} 
