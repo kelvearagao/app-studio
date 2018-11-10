@@ -5,6 +5,7 @@ import './App.css'
 import json from './jsons/page1'
 import PropForm from './components/PropForm'
 import Tree from './components/Tree'
+import DeviceFrame from './components/device-frame/DeviceFrame'
 
 class App extends Component {
   state = {
@@ -137,7 +138,9 @@ class App extends Component {
     this.updateElJson(event.elJson)
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    
+  }
 
   render() {
     const result = Object.entries(this.getJson()).map(([key, value]) => {
@@ -151,7 +154,8 @@ class App extends Component {
           id="view"
           style={{ height: '100%'}}
         >
-          {this.addElements(this.getJson())}
+          <DeviceFrame elements={this.addElements(this.getJson())}/>
+
         </div>
         <div />
 
@@ -171,19 +175,24 @@ class App extends Component {
           <br />
           <br />
           
-          <table width="100%" border="0">
+          <table width="100%" border="1">
             <tr>
-              <td width="50%" valign="top">
+              <td width="30%" valign="top">
                 <Tree elements={this.getJson()} handleElClick={this.handleSelectedElChange}/>
                 {/*
                 <textarea
                   className="json-textarea"
                   value={this.state.elementJson}
                   onChange={this.handleSelectedElJsonChange}
-                />
-                */}
+                />*/
+                }
               </td>
-              <td width="50%" align="right" valign="top">
+              <td width="30%" valign="top">
+                Elemento: {this.state.selectedElement}<br />
+                <input type="button" value="Remove"/> <br />
+                <input type="button" value="Add child"/> <br />
+              </td>
+              <td width="70%" align="right" valign="top">
                 <PropForm key={this.state.selectedElement} 
                   elName={this.state.selectedElement} 
                   elJson={this.state.elementJson} 
