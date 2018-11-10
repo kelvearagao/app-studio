@@ -10,8 +10,11 @@ export default class DeviceFrame extends Component {
     }
 
     componentDidMount() {
-        ReactDOM.render(this.props.elements, this.iframeRef.current.contentDocument.body)
         this.iframeRef.current.contentDocument.body.setAttribute("style", "margin: 0px");
+        ReactDOM.render(this.props.elements, this.iframeRef.current.contentDocument.body)
+
+        const style = React.createElement('style', null, '* { padding: 0; margin: 0; box-sizing: border-box; }');
+        ReactDOM.render(style, this.iframeRef.current.contentDocument.head)
     }
 
     render() {
